@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cifra de César</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+        }
+        input[type="number"] {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cifra de César</h1>
+    <label for="escolha">Você deseja:</label><br>
+    <input type="radio" id="criptografar" name="escolha" value="1" checked>
+    <label for="criptografar">Criptografar</label><br>
+    <input type="radio" id="decifrar" name="escolha" value="2">
+    <label for="decifrar">Decifrar</label><br><br>
+
+    <label for="texto">Digite o texto:</label><br>
+    <textarea id="texto"></textarea><br>
+    
+    <label for="deslocamento">Digite o deslocamento (número inteiro):</label>
+    <input type="number" id="deslocamento" value="0"><br><br>
+    
+    <button onclick="processarTexto()">Processar</button>
+    
+    <h2>Resultado:</h2>
+    <p id="resultado"></p>
+
+    <script>
+        function cifraDeCesar(texto, deslocamento) {
+            let resultado = "";
+
+            for (let char of texto) {
+                if (char >= 'A' && char <= 'Z') {
+                    resultado += String.fromCharCode((char.charCodeAt(0) - 'A'.charCodeAt(0) + deslocamento) % 26 + 'A'.charCodeAt(0));
+                } else if (char >= 'a' && char <= 'z') {
+                    resultado += String.fromCharCode((char.charCodeAt(0) - 'a'.charCodeAt(0) + deslocamento) % 26 + 'a'.charCodeAt(0));
+                } else {
+                    resultado += char; // Mantém caracteres não alfabéticos
+                }
+            }
+
+            return resultado;
+        }
+
+        function processarTexto() {
+            const texto = document.getElementById("texto").value;
+            const deslocamento = parseInt(document.getElementById("deslocamento").value);
+            const escolha = document.querySelector('input[name="escolha"]:checked').value;
+            let resultado;
+
+            if (escolha === '1') {
+                resultado = cifraDeCesar(texto, deslocamento);
+                document.getElementById("resultado").innerText = "Texto criptografado: " + resultado;
+            } else if (escolha === '2') {
+                resultado = cifraDeCesar(texto, -deslocamento);
+                document.getElementById("resultado").innerText = "Texto decifrado: " + resultado;
+            }
+        }
+    </script>
+</body>
+</html>
