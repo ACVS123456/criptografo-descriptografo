@@ -1,22 +1,49 @@
-function calcularMedia() {
-    // Solicitar as três notas do aluno
-    let nota1 = parseFloat(prompt("Insira a primeira nota por favor!: "));
-    let nota2 = parseFloat(prompt("Insira a segunda nota por favor!: "));
-    let nota3 = parseFloat(prompt("Insira a terceira nota por favor!: "));
 
-    // Calcular a média
-    let media = (nota1 + nota2 + nota3) / 3;
+import java.util.Scanner;
 
-    // Mostrar a média
-    console.log(A média do aluno será: ${media.toFixed(2)});
+public class CifraDeCesar {
 
-    // Verificar se o aluno foi aprovado ou está em recuperação
-    if (media >= 7) {
-        console.log("O aluno foi aprovado!");
-    } else {
-        console.log("O aluno está em recuperação.");
+    public static String cifraDeCesar(String texto, int deslocamento) {
+        StringBuilder resultado = new StringBuilder();
+
+        for (char charAt : texto.toCharArray()) {
+            if (Character.isUpperCase(charAt)) {
+                resultado.append((char) ((charAt - 'A' + deslocamento + 26) % 26 + 'A'));
+            } else if (Character.isLowerCase(charAt)) {
+                resultado.append((char) ((charAt - 'a' + deslocamento + 26) % 26 + 'a'));
+            } else {
+                resultado.append(charAt);
+            }
+        }
+
+        return resultado.toString();
+    }
+
+    public static String decifraDeCesar(String texto, int deslocamento) {
+        // Para decifrar, usamos o deslocamento negativo
+        return cifraDeCesar(texto, -deslocamento);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Você deseja (1) criptografar ou (2) decifrar? (Digite 1 ou 2): ");
+        String escolha = scanner.nextLine();
+        System.out.print("Digite o texto: ");
+        String texto = scanner.nextLine();
+        System.out.print("Digite o deslocamento (número inteiro): ");
+        int deslocamento = scanner.nextInt();
+
+        if (escolha.equals("1")) {
+            String textoCriptografado = cifraDeCesar(texto, deslocamento);
+            System.out.println("Texto criptografado: " + textoCriptografado);
+        } else if (escolha.equals("2")) {
+            String textoDecifrado = decifraDeCesar(texto, deslocamento);
+            System.out.println("Texto decifrado: " + textoDecifrado);
+        } else {
+            System.out.println("Escolha inválida. Por favor, digite 1 ou 2.");
+        }
+
+        scanner.close();
     }
 }
-
-// Executar a função
-calcularMedia();
